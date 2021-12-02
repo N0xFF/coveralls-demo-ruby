@@ -7,12 +7,24 @@ module Coveralls
     module Ruby
       class Error < StandardError; end
 
-      def self.covered
-        "covered"
+      class One
+        def self.covered
+          "covered"
+        end
+
+        def self.uncovered
+          "uncovered"
+        end
       end
 
-      def self.uncovered
-        "uncovered"
+      class Two
+        def self.covered
+          "covered"
+        end
+
+        def self.uncovered
+          "uncovered"
+        end
       end
     end
   end
