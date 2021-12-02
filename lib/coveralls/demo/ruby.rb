@@ -6,7 +6,14 @@ module Coveralls
   module Demo
     module Ruby
       class Error < StandardError; end
-      # Your code goes here...
+
+      def self.covered
+        "covered"
+      end
+
+      def self.uncovered
+        "uncovered"
+      end
     end
   end
 end

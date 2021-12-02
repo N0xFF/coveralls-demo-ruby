@@ -7,7 +7,11 @@ class Coveralls::Demo::RubyTest < Minitest::Test
     refute_nil ::Coveralls::Demo::Ruby::VERSION
   end
 
-  def test_it_does_something_useful
-    assert false
+  def test_covered
+    assert ::Coveralls::Demo::Ruby.covered
   end
+
+  # def test_uncovered
+  #   assert ::Coveralls::Demo::Ruby.uncovered
+  # end
 end
