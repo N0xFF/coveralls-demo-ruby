@@ -15,6 +15,10 @@ module Coveralls
         def self.uncovered
           "uncovered"
         end
+
+        def self.uncovered2
+          "uncovered2"
+        end
       end
 
       class Two
@@ -25,10 +29,10 @@ module Coveralls
         def self.uncovered
           "uncovered"
         end
-      end
 
-      def self.uncovered2
-        "uncovered2"
+        def self.uncovered2
+          "uncovered2"
+        end
       end
     end
   end
