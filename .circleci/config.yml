@@ -6,25 +6,34 @@ version: 2.1
 # See: https://circleci.com/docs/2.0/orb-intro/
 orbs:
   ruby: circleci/ruby@1.2.0
+  coveralls: coveralls/coveralls@1.0.6
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
   build:
     docker:
-      - image: 'cimg/base:stable'
+      - image: 'cimg/ruby:2.6-node'
     parallelism: 2
+    environment:
+      COVERALLS_PARALLEL: true
     steps:
       - checkout
-      - ruby/install:
-          version: '2.6'
       - ruby/install-deps
       - run:
           name: Run tests
           command: |
             bundle exec rake test \
               TEST_FILES=$(circleci tests glob "test/**/*_test.rb" | circleci tests split --split-by=timings | sed -e 'H;${x;s/\n/,/g;s/^,//;p;};d')
+      - coveralls/upload:
+          parallel: true
       - ruby/rubocop-check
+  done:
+    docker:
+      - image: 'cimg/node:lts'
+    steps:
+      - coveralls/upload:
+          parallel_finished: true
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -34,3 +43,6 @@ workflows:
     jobs:
       - build:
           context: default
+      - done:
+          context: default
+          requires: [build]
