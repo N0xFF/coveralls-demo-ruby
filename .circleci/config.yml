@@ -13,14 +13,18 @@ jobs:
   build:
     docker:
       - image: 'cimg/base:stable'
+    parallelism: 2
     steps:
       - checkout
       - ruby/install:
           version: '2.6'
       - ruby/install-deps
       - run:
-          name: Run the default task
-          command: bundle exec rake
+          name: Run tests
+          command: |
+            bundle exec rake test \
+              TEST_FILES=$(circleci tests glob "test/**/*_test.rb" | circleci tests split --split-by=timings | sed -e 'H;${x;s/\n/,/g;s/^,//;p;};d')
+      - ruby/rubocop-check
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
