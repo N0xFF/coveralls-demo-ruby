@@ -14,6 +14,10 @@ module Coveralls
       def self.uncovered
         "uncovered"
       end
+
+      def self.uncovered2
+        "uncovered2"
+      end
     end
   end
 end
